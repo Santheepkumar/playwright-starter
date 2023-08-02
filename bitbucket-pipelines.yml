@@ -1,0 +1,19 @@
+image: mcr.microsoft.com/playwright:v1.36.2-jammy
+
+definitions: 
+  caches:
+    npm: ~/.npm
+pipelines:
+  default:
+    - step:
+        caches:
+          - npm
+        name: AMS Playwright Tests
+        script:
+          - export LOGIN_EMAIL=$LOGIN_EMAIL
+          - export LOGIN_PASSWORD=$LOGIN_PASSWORD
+          - npm ci
+          - npx playwright install --with-deps
+          - npx playwright test
+        artifacts:
+         - playwright-report/index.html
